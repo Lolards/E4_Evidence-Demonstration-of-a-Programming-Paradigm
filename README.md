@@ -158,7 +158,7 @@ Result: 1  ✓
 
 ### Time & Space Complexity
 
-Both solutions have the same complexity O(n) in time and space. The only thing that change is that in prolog I use Declarative clauses and in Racket I use only recursion.
+Both solutions have the same complexity, O(n) in time and O(n) in space. The difference is that in Prolog the three cases are expressed as separate clauses selected by pattern matching, while in Racket they are expressed as branches in a cond expression.
 
 Another solution would be Python with a for loop and a counter variable, which would also run in O(n) time and O(1) space, but you would have to manually keep track of the consecutive x's count — less clean than the declarative approach.
 
