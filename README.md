@@ -1,4 +1,4 @@
-# Evidence 4: Demonstration of a Programming Paradigm
+# Demonstration of a Programming Paradigm
 Leonardo Fuentes Bear - A01614731
 
 ---
