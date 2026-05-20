@@ -1,6 +1,8 @@
 # Evidence 4: Demonstration of a Programming Paradigm
 Leonardo Fuentes Bear - A01614731
 
+---
+
 # Context & Description
 
 For this evidence, I have chosen to work with a Codeforces problem using the Logical Paradigm with the Prolog language. I chose Codeforces because it is a competitive programming platform maintained by ITMO University, with over 600,000 registered users and its problems come with a narrative context, a concrete input/output format, and well-defined constraints 
@@ -94,3 +96,82 @@ count_remove([x,x,x,i,i,i], 0, R)
 I have implemented 8 tests. Three come from the Codeforces problem statement and five additional cases:
 
 ![Test Cases](test_cases.jpg)
+
+To run the tests in SWI-Prolog:
+
+
+    wpl paradigm.pl
+    ?- solve(xxxiii, X).
+    X = 1.
+
+---
+
+# Time & Space Complexity
+
+**Time complexity: O(n)** — the predicate `count_remove` goes through the list, performing O(1) work per character.
+
+**Space complexity: O(n)** — the maximum recursion depth equals the length of the input string `n`.
+
+---
+
+# Analysis
+
+I chose the Logical Paradigm because this problem is a natural fit for it. The solution describes what a valid state is — "if I have seen 2 consecutive x's and the next character is also x, remove it". The three clauses of `count_remove` map directly to the three possible situations, and Prolog's unification selects the right clause automatically.
+
+And by using the Logical Paradigm we do not need to pass the length of the string as an input, unlike the original problem. This is because `atom_chars` automatically converts the string to a character list, and the recursion stops naturally when the list is empty (Base case).
+
+### Other solutions
+
+To present an alternative solution, I chose the **Functional Paradigm** using the **Racket** language. Functional programming is a paradigm rooted in lambda calculus, where computation is expressed through function application and immutable data transformations (Aguirre, 2025). It avoids shared state and side effects.
+
+The Racket solution mirrors the Prolog logic using a recursive function:
+
+    #lang racket
+
+    (define (count-remove lst consec)
+      (cond
+        [(null? lst) 0]
+        [(and (equal? (car lst) #\x) (= consec 2))
+         (+ 1 (count-remove (cdr lst) 2))]
+        [(equal? (car lst) #\x)
+         (count-remove (cdr lst) (+ consec 1))]
+        [else
+         (count-remove (cdr lst) 0)]))
+
+    (define (solve str)
+      (count-remove (string->list str) 0))
+
+The following diagram explains how the Racket function processes `xxxiii`:
+
+```
+(count-remove '(x x x i i i) 0)
+→ x, consec=0 → (count-remove '(x x i i i) 1)
+  → x, consec=1 → (count-remove '(x i i i) 2)
+    → x, consec=2 → 1 + (count-remove '(i i i) 2)
+      → i, reset  → (count-remove '(i i) 0)
+        → i       → (count-remove '(i) 0)
+          → i     → (count-remove '() 0) = 0
+      = 0
+    = 1 + 0 = 1
+Result: 1  ✓
+```
+
+### Time & Space Complexity
+
+Both solutions have the same complexity O(n) in time and space. The only thing that change is that in prolog I use Declarative clauses and in Racket I use only recursion.
+
+Another solution would be Python with a for loop and a counter variable, which would also run in O(n) time and O(1) space, but you would have to manually keep track of the consecutive x's count — less clean than the declarative approach.
+
+---
+
+# References
+
+Aguirre, B. (2025). *Lambda Calculus Functional Paradigm*. https://docs.google.com/document/d/1w8DCXQ4cQPdcDPQOVN3Hn65X000V0oixgOatseDyvUE/edit?usp=sharing
+
+Codeforces. (2018). *Problem 978B — File Name*. https://codeforces.com/problemset/problem/978/B
+
+https://docs.google.com/document/d/1RMGCGPHs4aLyfOTcwZJHSzQQlBP1uJYJe72jLIdcO7g/edit?tab=t.0
+
+Wikipedia. (2024). Codeforces. https://es.wikipedia.org/wiki/Codeforces
+
+Kowalski, R. (2014). Logic Programming. Handbook of the History of Logic (pp. 523–569). https://doi.org/10.1016/b978-0-444-51624-4.50012-5
