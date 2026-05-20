@@ -93,7 +93,7 @@ count_remove([x,x,x,i,i,i], 0, R)
 
 # Tests
 
-I have implemented 8 tests. Three come from the Codeforces problem statement and five additional cases:
+I tried 8 different strings. Three come from the Codeforces problem statement and five additional cases:
 
 ![Test Cases](test_cases.jpg)
 
@@ -101,8 +101,8 @@ To run the tests in SWI-Prolog:
 
 
     wpl paradigm.pl
-    ?- solve(xxxiii, X).
-    X = 1.
+    ?- solve("x's string", X).
+    X = x's to eliminate.
 
 ---
 
